@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { DoubleSide } from 'three'
+import fragmentShader from '../shaders/fragment.glsl'
+import vertexShader from '../shaders/vertex.glsl'
 
 
 export default class Experience {
@@ -13,7 +16,7 @@ export default class Experience {
 
         this.scene = new THREE.Scene();
 
-        this.renderer = new THREE.WebGLRenderer( { antialias: true } );
+        this.renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
         this.renderer.setSize( this.width, this.height );
         this.container.appendChild(this.renderer.domElement)
 
@@ -45,17 +48,24 @@ export default class Experience {
     }
 
     addObjects() {
-        this.geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-        this.material = new THREE.MeshNormalMaterial();
+        this.geometry = new THREE.PlaneGeometry(1, 1, 100, 100);
+        this.material = new THREE.ShaderMaterial({
+            uniforms: {
+                uTime: { value: 1.0 }
+            },
+            side: DoubleSide,
+            wireframe: true,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader
+        })
         
         this.mesh = new THREE.Mesh( this.geometry, this.material );
         this.scene.add( this.mesh );
     }
 
     render() {
-        this.mesh.rotation.x = this.time / 2000;
-        this.mesh.rotation.y = this.time / 1000;
-
+        this.time += 0.05;
+        this.material.uniforms.uTime.value = this.time;
         this.renderer.render( this.scene, this.camera );
 
         requestAnimationFrame(this.render.bind(this))
