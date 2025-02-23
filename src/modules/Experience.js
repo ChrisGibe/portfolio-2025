@@ -1,28 +1,34 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { DoubleSide } from 'three'
-import fragmentShader from '../shaders/fragment.glsl'
-import vertexShader from '../shaders/vertex.glsl'
+import { DoubleSide } from 'three';
+import * as dat from 'lil-gui';
+import fragmentShader from '../shaders/fragment.glsl';
+import vertexShader from '../shaders/vertex.glsl';
+import imgTexture from '/texture.jpg';
 
 
 export default class Experience {
     constructor(options) {
-        this.container = options.domElement
-        this.width = window.innerWidth,
-        this.height = window.innerHeight 
+        this.container = options.domElement;
+        this.gui = new dat.GUI();
+        this.width = window.innerWidth;
+        this.height = window.innerHeight; 
 
-        this.camera = new THREE.PerspectiveCamera( 70, this.width / this.height , 0.01, 10 );
-        this.camera.position.z = 1;        
+        this.camera = new THREE.PerspectiveCamera( 70, this.width / this.height , 10, 1000 );
+        this.camera.position.z = 600;     
+        
+        this.camera.fov = Math.atan((this.height / 2) / 600) * 360 / Math.PI;
 
         this.scene = new THREE.Scene();
 
         this.renderer = new THREE.WebGLRenderer( { antialias: true, alpha: true } );
         this.renderer.setSize( this.width, this.height );
-        this.container.appendChild(this.renderer.domElement)
+        this.container.appendChild(this.renderer.domElement);
 
-        this.controls = new OrbitControls(this.camera, this.renderer.domElement)
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
-        this.time = 0
+        this.time = 0;
+        this.setupSettings();
         this.resize();
         this.addObjects();
         this.render();
@@ -43,29 +49,43 @@ export default class Experience {
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     }
 
+    setupSettings() {
+        this.settings = {
+            progress: 0
+        }
+
+        this.gui.add(this.settings, "progress", 0, 1, 0.001)
+    }
+
     setupResize() {
         window.addEventListener('resize', this.resize.bind(this))
     }
 
     addObjects() {
-        this.geometry = new THREE.PlaneGeometry(1, 1, 100, 100);
+        this.geometry = new THREE.PlaneGeometry(500, 500, 100, 100);
         this.material = new THREE.ShaderMaterial({
             uniforms: {
-                uTime: { value: 1.0 }
+                uTexture: { value: new THREE.TextureLoader().load(imgTexture) },
+                uTextureSize: { value: new THREE.Vector2(100, 100) },
+                uProgress: { value: 1.0 },
+                uTime: { value: 1.0 },
+                uResolution: { value: new THREE.Vector2(this.width, this.height) },
+                uQuadSize: { value: new THREE.Vector2(500, 500) },
             },
             side: DoubleSide,
-            wireframe: true,
             vertexShader: vertexShader,
             fragmentShader: fragmentShader
         })
         
         this.mesh = new THREE.Mesh( this.geometry, this.material );
         this.scene.add( this.mesh );
+
     }
 
     render() {
         this.time += 0.05;
         this.material.uniforms.uTime.value = this.time;
+        this.material.uniforms.uProgress.value = this.settings.progress;
         this.renderer.render( this.scene, this.camera );
 
         requestAnimationFrame(this.render.bind(this))
