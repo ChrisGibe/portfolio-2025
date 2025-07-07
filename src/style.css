@@ -61,7 +61,7 @@ h1 {
     letter-spacing: var(--letter-spacing-6);
     margin-bottom: 4rem;
 
-    @media (max-width: 768px) {
+    @media (min-width: 768px) {
       font-size: var(--font-size-h1);
     }
 }
