@@ -1,0 +1,36 @@
+@mixin margin-layout {
+    margin-inline: 1rem;
+    @media (max-width: 768px) {
+        margin-inline: 2rem;
+    }
+}
+
+
+@mixin leftToRight($color) {
+  position: relative;
+  width: fit-content;
+
+  &:after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    display: inline-block;
+    transform: scaleX(1);
+    opacity: 1;
+    height: 1px;
+    transition: opacity 400ms cubic-bezier(0, 0, 0.6, 1), transform 400ms cubic-bezier(0, 0, 0.6, 1);
+    background-color: $color;
+    transform-origin: left;
+    will-change: transform, opacity;
+  }
+
+  &:hover {
+    &:after {
+      transform-origin: right;
+      transform: scaleX(0);
+      opacity: 0;
+    }
+  }
+}
