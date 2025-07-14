@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <p>© 2025 Gibelli Christophe</p>
+        <p>©2025 Gibelli Christophe</p>
     </footer>
 </template>
 

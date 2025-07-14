@@ -1,20 +1,40 @@
-.sec-projects {
-    margin-inline: 2rem;
-    gap: 1rem;
+@use "./mixins" as *;
 
-    h2 {
-        margin-bottom: 4rem;
+.sec-projects {
+    @include margin-layout;
+    
+    .section-title {
+        margin-bottom: 1rem;
+        overflow: hidden;
+
+        @media (min-width: 768px) {
+            margin-bottom: 4rem;
+        }
+
+        .line-section-title {
+            display: flex;
+        }
     }
 
     .projects-list {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        flex-direction: column;
+        gap: 2rem;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+            gap: 1rem;
+        }
 
         .project {
             display: flex;
             flex-direction: column;
-            width: 50vw;
+            width: 100%;
+
+            @media (min-width: 768px) {
+                width: 50vw;
+            }
 
             .video-container {
                 width: 100%;
@@ -29,13 +49,16 @@
             }
 
             .project-info {
-                h3 {
-                    margin: .4rem 0 .4rem 0 ;
-                }
-            }
-
-            .project-link {
                 font-size: .8rem;
+
+                h3 {
+                    margin: .8rem 0 .8rem 0 ;
+                }
+
+                a {
+                    font-size: .8rem;
+                    text-transform: none;
+                }
             }
         }
     }

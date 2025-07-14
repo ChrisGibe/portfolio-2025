@@ -1,9 +1,11 @@
+@use "./components/mixins" as *;
 @use "./components/reset";
 @use "./components/sec-opening";
 @use "./components/sec-wip";
 @use "./components/sec-project";
 @use "./components/global/header";
 @use "./components/global/footer";
+@use 'lenis/dist/lenis.css';
 
 
 :root {
@@ -11,9 +13,9 @@
     --color-black: #0f0f0f;
     --color-gray: #f9f4eb;
     --font-size-p1: clamp(1rem, .9028rem + .2222vi, 1.125rem);
-    --font-size-h1: clamp(5rem, -.0556rem + 11.5556vi, 11.5rem);
-    --font-size-h2: clamp(2rem, -.0456rem + 10.5556vi, 6rem);
-    --font-size-h3: clamp(1rem, .9028rem + .2222vi, 1.125rem);
+    --font-size-h1: clamp(3.2rem, -.0556rem + 11.5556vi, 11.5rem);
+    --font-size-h2: clamp(2.8rem, -.0456rem + 10.5556vi, 6rem);
+    --font-size-h3: clamp(1.6rem, .9028rem + .2222vi, 1.125rem);
     --line-height-80: 0.8em;
     --letter-spacing-6: -.06em;
     --color: black;
@@ -32,6 +34,11 @@ body {
     font-size: var(--font-size-p1);
     color: var(--color);
     font-weight: 400;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    
 }
 
 h1 {
@@ -39,13 +46,10 @@ h1 {
     color: var(--color);
     text-transform: uppercase;
     font-weight: 700;
-    font-size: 3rem;
     line-height: var(--line-height-80);
     letter-spacing: var(--letter-spacing-6);
-
-    @media (min-width: 768px) {
-      font-size: var(--font-size-h1);
-    }
+    font-size: var(--font-size-h1);
+    
 }
 
 h2 {
@@ -68,15 +72,16 @@ h3 {
     text-transform: uppercase;
     font-weight: 400;
     font-size: 3rem;
-    line-height: var(--line-height-80);
+    line-height: 1;
     letter-spacing: var(--letter-spacing-6);
-
-    @media (min-width: 768px) {
-      font-size: var(--font-size-h3);
-    }
+    font-size: var(--font-size-h3);
+    text-wrap: balance;
 }
 
 a {
     color: var(--color);
     text-transform: uppercase;
+    text-decoration: none;
+
+    @include leftToRight(var(--color-black));
 }

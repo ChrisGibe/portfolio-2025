@@ -9,5 +9,5 @@ export default defineNuxtConfig({
       { name: 'Space Mono Regular', src: '/fonts/SpaceMono-Regular.woff2', weights: [ 400 ] },
       { name: 'Space Mono Bold', src: '/fonts/SpaceMono-Bold.woff2', weights: [ 700 ] }
     ]
-  }
+  },
 })

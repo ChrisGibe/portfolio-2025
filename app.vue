@@ -12,8 +12,13 @@
 
 <script setup>
 import { gsap } from 'gsap'
+import { SmoothScroll } from './assets/js/modules/SmoothScroll';
 
 onMounted(() => {
+    window.scrollTo(0, 0);
+    
+    const smoothScroll = new SmoothScroll();
+    smoothScroll.init();
 
     const tl = gsap.timeline();
     tl
