@@ -1,8 +1,4 @@
-@use "./mixins" as *;
-
-.sec-opening {
-    @include margin-layout;
-    
+.sec-opening {    
     position: fixed;
     inset: 0;
     width: 100vw;

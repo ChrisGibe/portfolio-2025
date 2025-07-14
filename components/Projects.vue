@@ -21,8 +21,6 @@
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const projects = ref([
     {
         id: 1,
@@ -39,6 +37,8 @@ const projects = ref([
 ])
 
 onMounted(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    
     ScrollTrigger.create({
         trigger: '.project',
         start: 'top center',
