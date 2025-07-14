@@ -1,0 +1,33 @@
+.sec-opening {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 2;
+
+    .top {
+        background-color: var(--color-black);
+        width: 100vw;
+        height: 50vh; 
+        transform-origin: top; 
+    }
+
+    .line {
+        background-color: var(--color-background);
+        width: 100vw;
+        transform: translate(0, -50%) scaleX(0);
+        transform-origin: left;
+        height: 1px;
+        position: absolute;
+        top: 50%;
+        left: 0;
+    }
+
+    .bottom {
+       background-color: var(--color-black);
+       width: 100vw;
+       height: 50vh;
+       transform-origin: bottom; 
+    }
+}

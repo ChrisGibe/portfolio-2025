@@ -1,0 +1,42 @@
+.sec-projects {
+    margin-inline: 2rem;
+    gap: 1rem;
+
+    h2 {
+        margin-bottom: 4rem;
+    }
+
+    .projects-list {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .project {
+            display: flex;
+            flex-direction: column;
+            width: 50vw;
+
+            .video-container {
+                width: 100%;
+                overflow: hidden;
+                
+
+                video {
+                    width: 100%;
+                    height: auto;
+                    transform: scale(1.02);
+                }
+            }
+
+            .project-info {
+                h3 {
+                    margin: .4rem 0 .4rem 0 ;
+                }
+            }
+
+            .project-link {
+                font-size: .8rem;
+            }
+        }
+    }
+}

@@ -11,8 +11,13 @@
   },
   "dependencies": {
     "@nuxt/fonts": "0.11.4",
+    "gsap": "^3.13.0",
     "nuxt": "^3.17.6",
+    "sass-migrator": "^2.3.3",
     "vue": "^3.5.17",
     "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "sass": "^1.89.2"
   }
 }
