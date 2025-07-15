@@ -5,6 +5,7 @@
 @use "./components/sec-project";
 @use "./components/global/header";
 @use "./components/global/footer";
+@use "./components/sec-contact";
 @use 'lenis/dist/lenis.css';
 
 
@@ -13,7 +14,7 @@
     --color-black: #0f0f0f;
     --color-gray: #f9f4eb;
     --font-size-p1: clamp(1rem, .9028rem + .2222vi, 1.125rem);
-    --font-size-h1: clamp(3.2rem, -.0556rem + 11.5556vi, 11.5rem);
+    --font-size-h1: clamp(3.2rem, -.0856rem + 16.5556vi, 12.5rem);
     --font-size-h2: clamp(2.8rem, -.0456rem + 10.5556vi, 6rem);
     --font-size-h3: clamp(1.6rem, .9028rem + .2222vi, 1.125rem);
     --line-height-80: 0.8em;
@@ -67,7 +68,7 @@ h2 {
 }
 
 h3 {
-    font-family: "Space Mono Bold", monospace;
+    font-family: "Space Mono Regular", monospace;
     color: var(--color);
     text-transform: uppercase;
     font-weight: 400;
@@ -83,5 +84,6 @@ a {
     text-transform: uppercase;
     text-decoration: none;
 
+    @include link-a11y(var(--color-black));
     @include leftToRight(var(--color-black));
 }

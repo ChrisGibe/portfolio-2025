@@ -1,8 +1,14 @@
 @use "../mixins" as *;
 
 footer {
-    @include margin-layout;
+    background-color: var(--color-black);
+    color: var(--color-background);
     
     margin-top: 4rem;
-    padding-bottom: 2rem;    
+    padding-bottom: 1.6rem;
+    padding-top: 1.6rem;
+    
+    .inner-footer {
+        @include margin-layout; 
+    }
 }

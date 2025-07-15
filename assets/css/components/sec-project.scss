@@ -2,6 +2,12 @@
 
 .sec-projects {
     @include margin-layout;
+
+    margin-top: 4rem;
+
+    @media (min-width: 768px) {
+        margin-top: 6rem;
+    }
     
     .section-title {
         margin-bottom: 1rem;

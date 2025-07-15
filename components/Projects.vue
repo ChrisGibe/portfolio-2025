@@ -50,17 +50,6 @@ onMounted(() => {
             });
         },
     })
-
-    gsap.from('.line-section-title', {
-        translateY: '100%',
-        duration: 1.2,
-        ease: 'power2.inOut',
-        scrollTrigger: {
-            trigger: '.section-title',
-            start: 'bottom bottom',
-            end: 'bottom bottom',
-        }
-    })
 })
 
 </script>
