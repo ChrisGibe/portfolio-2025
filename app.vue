@@ -7,6 +7,7 @@
         <Opening />
         <Wip />
         <Projects />
+        <Contact />
     </NuxtLayout>
 </template>
 
@@ -30,5 +31,21 @@ onMounted(() => {
     .to('.line', { autoAlpha: 0, duration: 0.2, ease: 'linear' }, '<')
     .from(['.first-name', '.last-name'], { translateY: '100%', duration: 1.1, ease: 'power2.inOut'}, '<0.4')
     .from(['.job', '.company'], { autoAlpha: 0, duration: 0.2, ease: 'power2.inOut'}, '<1')
+    .from('.vertical-line', { scale: 0, duration: 0.8, ease: 'power2.inOut'}, '<')
+
+    gsap.utils.toArray('.line-section-title').forEach(lineTitle => {
+        const parent = lineTitle.closest('.section-title');
+  
+        gsap.from(lineTitle, {
+            translateY: '100%',
+            duration: 1.2,
+            ease: 'power2.inOut',
+            scrollTrigger: {
+                trigger: parent,
+                start: 'bottom bottom',
+                end: 'bottom bottom',
+            }
+        })
+    })
 })
 </script>

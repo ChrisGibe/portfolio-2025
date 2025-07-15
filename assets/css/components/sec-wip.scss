@@ -1,7 +1,12 @@
 .sec-wip {
-    height: 100vh;
+    height: calc(100vh - 80px);
     display: flex;
     flex-direction: column;
+    position: relative;
+
+    @media (min-width: 768px) {
+        height: calc(100vh - 96px);
+    }
 
     .detail {
         margin-top: 1rem;
@@ -59,20 +64,20 @@
         font-weight: 400;
         text-align: center;
         text-transform: uppercase;
-      }
-      
-      .linkedin {
-         width: 1.6rem;
-         height: 1.6rem;
-      
-         svg {
-          width: 1.6rem;
-          height: 1.6rem;
-      
-          path {
-              fill: var(--color);
-          }
-         }
-      }
+    }
 
+    .vertical-line {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        width: 1px;
+        height: 20vh;
+        background-color: var(--color-black);
+        transform-origin: top;
+
+        @media (min-width: 768px) {
+            opacity: 0;
+        }
+    }
 }

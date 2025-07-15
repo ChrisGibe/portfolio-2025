@@ -13,6 +13,7 @@
             <p class="job">Frontend developer</p>
             <p class="company">Currently working at <a href="https://dusens.group/" target="">Dusens Europe</a></p>
         </div>
+        <div class="vertical-line"></div>
     </section>
 </template>
 
