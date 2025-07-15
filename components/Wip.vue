@@ -7,7 +7,7 @@
                     <span class="first-name">Gibelli</span>
                 </span>
                 <span class="line-title">
-                    <span class="last-name">Christohe</span>
+                    <span class="last-name">Christophe</span>
                 </span>
             </h1>
             <p class="job">Frontend developer</p>
