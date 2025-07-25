@@ -1,6 +1,6 @@
 @mixin margin-layout {
     margin-inline: 1rem;
-    @media (max-width: 768px) {
+    @media (min-width: 768px) {
         margin-inline: 2rem;
     }
 }
