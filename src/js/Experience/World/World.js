@@ -1,7 +1,6 @@
 import Experience from "../Experience";
 import Environment from './Environment';
-import FLoor from './Floor';
-import Fox from './Fox';
+import Plane from './Plane';
 
 export default class World {
     constructor() {
@@ -13,16 +12,11 @@ export default class World {
 
         this.resources.on('ready', () => {
             console.log('All the resources are loaded')
-
-            this.floor = new FLoor();
-            this.fox = new Fox();
             this.environment = new Environment();
+            this.plane = new Plane();
         })
     }
 
     update() {
-        if(this.fox) {
-            this.fox.update();
-        }
-    }
+}
 }
