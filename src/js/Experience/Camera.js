@@ -20,13 +20,13 @@ export default class Camera {
      */
     setInsance() {
         this.instance = new THREE.PerspectiveCamera(
-            35, 
+            40, 
             this.sizes.width / this.sizes.height,
             0.1,
             100
         );
 
-        this.instance.position.set(1, 1, 1);
+        this.instance.position.set(0, 0, 3);
     }
 
     setOrbitControls() {
