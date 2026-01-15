@@ -12,21 +12,16 @@ export default class Camera {
         this.canvas = this.experience.canvas;
 
         this.setInsance();
-        this.setOrbitControls();
+       this.setOrbitControls();
     }
 
     /**
      * https://threejs.org/docs/?q=PerspectiveCamera#api/en/cameras/PerspectiveCamera
      */
     setInsance() {
-        this.instance = new THREE.PerspectiveCamera(
-            40, 
-            this.sizes.width / this.sizes.height,
-            0.1,
-            100
-        );
-
-        this.instance.position.set(0, 0, 3);
+        this.instance = new THREE.PerspectiveCamera(70, this.sizes.width / this.sizes.height, 1, 1000);
+        this.instance.position.z = 600;
+        this.instance.fov = 2*Math.atan( (this.sizes.height/2)/600 ) * 180/Math.PI;
     }
 
     setOrbitControls() {
@@ -40,6 +35,6 @@ export default class Camera {
     }
 
     update() {
-        this.controls.update();
+       this.controls.update();
     }
 }

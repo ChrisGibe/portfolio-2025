@@ -9,8 +9,18 @@ export default class Plane {
         // Setup
         this.experience = new Experience();
         this.scene = this.experience.scene;
+        this.time = this.experience.time;
         this.debug = this.experience.debug;
         this.index = index;
+
+        this.xPos = 1;
+        this.yPos = 1;
+        this.zPos = 1;
+        this.color = color;
+
+        this.setGeometry();
+        this.setMaterial();
+        this.setMesh()
 
         // Debug
         if(this.debug.active) {
@@ -18,24 +28,20 @@ export default class Plane {
             this.debugUI();
         }
 
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.zPos = zPos;
-        this.color = color;
-
-        this.setGeometry();
-        this.setMaterial();
-        this.setMesh()
     }
 
     setGeometry() {
-        this.geometry = new THREE.PlaneGeometry(1.5, 1, 32, 32)
+        this.geometry = new THREE.PlaneGeometry(300, 300, 100, 100)
     }
     
     setMaterial() {
         this.material = new THREE.RawShaderMaterial({
             uniforms: {
-                uColor: { value: this.color },
+                uTexture: { value: this.experience.resources.items.ratioTesting },
+                uProgress: { value: 1.0 },
+                uTime: { value: this.time.delta },
+                uResolution: { value: new THREE.Vector2(this.experience.sizes.width, this.experience.sizes.height) },
+                uQuadsize: { value: new THREE.Vector2(300, 300) }
             },
             vertexShader: vertex,
             fragmentShader: fragment,
@@ -45,24 +51,18 @@ export default class Plane {
 
     setMesh() {
         this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.mesh.position.set(this.xPos, this.yPos, this.zPos);
         this.scene.add(this.mesh)
     }
 
     debugUI() {
-        this.debugFolder.add(this.mesh.position, 'x')                    
-        .min(0)
-        .max(4)
-        .step(0.001).name('x')
+        this.settings = {
+            progress: 0
+        }
+        // uniforms - accéder à .value car c'est un Uniform
+        this.debugFolder.add(this.settings, 'progress', 0, 1, 0.001)
+    }
 
-        this.debugFolder.add(this.mesh.position, 'y')                    
-        .min(0)
-        .max(4)
-        .step(0.001).name('y')
-
-        this.debugFolder.add(this.mesh.position, 'z')                    
-        .min(0)
-        .max(4)
-        .step(0.001).name('z')
+    update() {
+        this.material.uniforms.uProgress.value = this.settings.progress
     }
 }
