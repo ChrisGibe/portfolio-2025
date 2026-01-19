@@ -12,7 +12,7 @@ export default class Camera {
         this.canvas = this.experience.canvas;
 
         this.setInsance();
-       this.setOrbitControls();
+       // this.setOrbitControls();
     }
 
     /**
@@ -22,6 +22,7 @@ export default class Camera {
         this.instance = new THREE.PerspectiveCamera(70, this.sizes.width / this.sizes.height, 1, 1000);
         this.instance.position.z = 600;
         this.instance.fov = 2*Math.atan( (this.sizes.height/2)/600 ) * 180/Math.PI;
+        this.instance.updateProjectionMatrix();
     }
 
     setOrbitControls() {
@@ -35,6 +36,6 @@ export default class Camera {
     }
 
     update() {
-       this.controls.update();
+       // this.controls.update();
     }
 }

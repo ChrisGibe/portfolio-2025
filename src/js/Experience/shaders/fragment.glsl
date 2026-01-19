@@ -2,6 +2,7 @@ precision mediump float;
 
 uniform vec3 uColor;
 uniform sampler2D uTexture;
+uniform float uOpacity;
 
 varying vec2 vUv;
 
@@ -9,4 +10,5 @@ void main() {
     vec4 image = texture2D(uTexture, vUv);
     gl_FragColor = vec4(vUv, 0., 1.);
     gl_FragColor = image;
+    gl_FragColor.a *= uOpacity;
 }

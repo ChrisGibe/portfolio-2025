@@ -15,7 +15,10 @@ export default class World {
         this.resources.on('ready', () => {
             console.log('All the resources are loaded')
             this.environment = new Environment();
-            this.plane = new Plane()
+            this.plane = new Plane(0, 0, 0)
+            this.plane2 = new Plane(0, -20, 20)
+            this.plane3 = new Plane(0, -40, 40)
+            this.plane4 = new Plane(0, -60, 60)
 
             // this.animate();
         })
@@ -24,5 +27,8 @@ export default class World {
 
     update() {
         if (this.plane) this.plane.update();
+        if (this.plane2) this.plane2.update();
+        if (this.plane3) this.plane3.update();
+        if (this.plane4) this.plane4.update();
     }
 }
