@@ -1,100 +1,113 @@
-import * as THREE from 'three';
+import * as THREE from "three";
 import Experience from "../Experience";
 import fragment from "../shaders/fragment.glsl";
 import vertex from "../shaders/vertex.glsl";
-import gsap from 'gsap';
 
 export default class Plane {
-    constructor(x, y, z) {
+  constructor(y, z, color) {
+    // Setup
+    this.experience = new Experience();
+    this.scene = this.experience.scene;
+    this.time = this.experience.time;
+    this.debug = this.experience.debug;
+    this.world = this.experience.world;
 
-        // Setup
-        this.experience = new Experience();
-        this.scene = this.experience.scene;
-        this.time = this.experience.time;
-        this.debug = this.experience.debug;
+    this.x = 0;
+    this.y = y;
+    this.z = z;
+    this.color = color;
+    this.opacity = 1;
+    this.width = this.world.config.planeWidth;
+    this.height = this.world.config.planeHeight;
+    this.isScrolling = false;
+this.scrollTimeout = null;
 
-        this.yPos = y;
-        this.zPos = z;
-        this.xPos = x;
+    this.start = { y: this.world.config.startY, z: this.world.config.startZ };
+    this.end = { y: this.world.config.endY, z: this.world.config.endZ };
 
-        this.setGeometry();
-        this.setMaterial();
-        this.setMesh()
+    const initialProgress = (this.z - this.start.z) / (this.end.z - this.start.z);
 
-        // Debug
-        if(this.debug.active) {
-            this.debugFolder = this.debug.ui.addFolder(`plane-${this.index}`)
-            this.debugUI();
-        }
+    this.progress = initialProgress;
 
-        this.moveZonMouseScroll();
+    this.setGeometry();
+    this.setMaterial();
+    this.setMesh();
+
+    // Debug
+    if (this.debug.active) {
+      this.debugUI();
     }
 
-    setGeometry() {
-        this.geometry = new THREE.PlaneGeometry(450, 250, 100, 100)
-    }
-    
-    setMaterial() {
-        this.material = new THREE.RawShaderMaterial({
-            uniforms: {
-                uTexture: { value: this.experience.resources.items.ratioTesting },
-                uProgress: { value: 1.0 },
-                uTime: { value: this.time.delta },
-                uResolution: { value: new THREE.Vector2(this.experience.sizes.width, this.experience.sizes.height) },
-                uQuadsize: { value: new THREE.Vector2(450, 250) },
-                uOpacity: { value: 1.0 }
-            },
-            vertexShader: vertex,
-            fragmentShader: fragment,
-            side: THREE.DoubleSide,
-            transparent: true
-        })
-    }
+    this.moveZonMouseScroll();
+  }
 
-    setMesh() {
-        this.mesh = new THREE.Mesh(this.geometry, this.material)
-        this.scene.add(this.mesh)
-        this.mesh.position.x = this.xPos
-        this.mesh.position.y = this.yPos
-        this.mesh.position.z = this.zPos
-    }
+  setGeometry() {
+    this.geometry = new THREE.PlaneGeometry(this.width, this.height, 100, 100);
+  }
 
-    moveZonMouseScroll() {
-        // When i scroll down move the plane zPos
-        // When i scroll up move the plane zPos
-        window.addEventListener('wheel', (e) => {
-            console.log('I scroll')
-            if(e.deltaY > 0) {
-                this.zPos += 10;
-                this.yPos -= 10;
-                if(this.zPos === 100) {
-                    console.log('zPos is 100')
-                    // Opacity on the plane
-                    gsap.to(this.material.uniforms.uOpacity, {
-                        duration: 2,
-                        value: 0,
-                        ease: 'power3.inOut',
-                    })
-                }
-            }
-        })
-    }
+  setMaterial() {
+    this.material = new THREE.RawShaderMaterial({
+      uniforms: {
+        uColor: {value: new THREE.Color(this.color)},
+        uOpacity: {value: this.opacity},
+      },
+      vertexShader: vertex,
+      fragmentShader: fragment,
+      side: THREE.DoubleSide,
+      transparent: true,
+    });
+  }
 
+  setMesh() {
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.scene.add(this.mesh);
 
-    debugUI() {
-        this.settings = {
-            progress: 0,
-            opacity: 1
-        }
-        // uniforms - accéder à .value car c'est un Uniform
-        this.debugFolder.add(this.settings, 'progress', 0, 1, 0.001)
-        this.debugFolder.add(this.settings, 'opacity', 0, 1, 0.001)
-    }
+    this.mesh.position.x = this.x;
+    this.mesh.position.y = this.y;
+    this.mesh.position.z = this.z;
+  }
 
-    update() {
-        this.material.uniforms.uProgress.value = this.settings.progress
-        this.mesh.position.z = this.zPos
-        this.mesh.position.y = this.yPos
-        this.material.uniforms.uOpacity.value = this.settings.opacity
-    }
+  moveZonMouseScroll() {
+    window.addEventListener("wheel", (e) => {
+      this.isScrolling = true;
+
+      if (e.deltaY > 0) {
+        const speed = this.world.speed * Math.abs(e.deltaY);
+        this.progress += speed;
+
+        this.progress > 1 ? this.progress %= 1 : this.progress;
+        this.progress < 0 ? this.progress = 1 + (this.progress % 1) : this.progress;
+
+        clearTimeout(this.scrollTimeout);
+        this.scrollTimeout = setTimeout(() => {
+            this.isScrolling = false;
+        }, 50);
+      }
+    });
+  }
+
+  debugUI() {}
+
+  update() {
+      this.y = this.start.y + (this.end.y - this.start.y) * this.progress;
+      this.z = this.start.z + (this.end.z - this.start.z) * this.progress;
+
+      this.mesh.position.y = this.y;
+      this.mesh.position.z = this.z;
+
+      // Tes calculs originaux que tu veux garder
+      const easeIn = Math.min(this.progress / 0.1, 1);
+      const easeOut = Math.min((1 - this.progress) / 0.1, 1);
+      const positionalOpacity = easeIn * easeOut;
+
+      // LA LOGIQUE : 
+      // Si on scrolle -> on suit l'opacité de position (tes eases).
+      // Si on s'arrête -> on remonte à 1.
+      const targetOpacity = this.isScrolling ? positionalOpacity : 1.0;
+
+      // On utilise un lissage pour que la transition entre "fondu" et "opaque" soit belle
+      this.opacity += (targetOpacity - this.opacity) * 0.1;
+
+      this.material.uniforms.uOpacity.value = this.opacity;
+  }
 }
