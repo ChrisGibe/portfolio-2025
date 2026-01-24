@@ -27,6 +27,7 @@ export default class Camera {
     setInsance() {
         this.debugFolder = {}
         this.instance = new THREE.PerspectiveCamera(45, this.sizes.width / this.sizes.height, 10, 600);
+        this.instance.position.set(0, 30, 0);
         this.instance.updateProjectionMatrix();
     }
 
