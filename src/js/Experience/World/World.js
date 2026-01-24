@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-import gsap from 'gsap';
 import Experience from "../Experience";
 import Environment from './Environment';
 import Plane from './Plane';
@@ -11,24 +9,37 @@ export default class World {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
+        this.planes = [];
+        this.speed = 0.0008;
+
+        this.debug = this.experience.debug;
 
         this.resources.on('ready', () => {
             console.log('All the resources are loaded')
+            
             this.environment = new Environment();
-            this.plane = new Plane(0, 0, 0)
-            this.plane2 = new Plane(0, -20, 20)
-            this.plane3 = new Plane(0, -40, 40)
-            this.plane4 = new Plane(0, -60, 60)
 
-            // this.animate();
+            this.planes.push(new Plane(0, 0, -330, "blue"))
+            this.planes.push(new Plane(0, 10, -350, "red"))
+            this.planes.push(new Plane(0, 25, -370, "green"))
+            this.planes.push(new Plane(0, 45, -390, "yellow"))
         })
+
+        // Debug
+        if (this.debug.active) {
+            this.debugFolder = this.debug.ui.addFolder(`world`);
+            this.debugUI();
+        }
+    }
+
+
+    debugUI() {
+        // SPEED
+        this.debugFolder.add(this, "speed").min(0.0005).max(0.0010).step(0.0001).name("speed");
     }
 
 
     update() {
-        if (this.plane) this.plane.update();
-        if (this.plane2) this.plane2.update();
-        if (this.plane3) this.plane3.update();
-        if (this.plane4) this.plane4.update();
+        this.planes.forEach(plane => plane.update());
     }
 }
