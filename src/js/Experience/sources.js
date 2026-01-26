@@ -32,4 +32,19 @@ export default [
         type: 'texture',
         path: 'textures/ratioTesting.jpg'
     },
+    {
+        name: 'dassault',
+        type: 'texture',
+        path: 'textures/cases/dassault.jpg'
+    },
+    {
+        name: 'ampere',
+        type: 'texture',
+        path: 'textures/cases/ampere.jpg'
+    },
+    {
+        name: 'engie',
+        type: 'texture',
+        path: 'textures/cases/engie.jpg'
+    }  
 ]

@@ -9,19 +9,19 @@ export default class World {
         this.experience = new Experience();
         this.scene = this.experience.scene;
         this.resources = this.experience.resources;
+
         this.planes = [];
-
         this.speed = 0.0008;
-
         this.debug = this.experience.debug;
 
         this.config = {
-            count: 8,
+            count: 3,
             startY: 30,
-            startZ: -380,
+            startZ: -430,
             endY: -5,
             endZ: -320,
             colors: ["#778899", "#666666", "#555555", "#444444"],
+            images: ["engie", "ampere", "dassault"],
             planeWidth: 240,
             planeHeight: 150,
         };
@@ -42,15 +42,14 @@ export default class World {
 
     createPlanes() {
         for (let i = 0; i < this.config.count; i++) {
-            // On calcule la position initiale de chaque plan sur la ligne
-            // i / count donne un ratio entre 0 et 1 (0, 0.2, 0.4...)
             const ratio = i / this.config.count;
 
             const y = this.config.startY + (this.config.endY - this.config.startY) * ratio;
             const z = this.config.startZ + (this.config.endZ - this.config.startZ) * ratio;
             const color = this.config.colors[i % this.config.colors.length];
+            const img = this.config.images;
 
-            this.planes.push(new Plane(y, z, color));
+            this.planes.push(new Plane(y, z, color, this.resources.items[img[i]]));
         }
     }
 
